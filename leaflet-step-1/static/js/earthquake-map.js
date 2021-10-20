@@ -37,26 +37,57 @@ d3.json(equakedata).then(function(earthquakes) {
         var mag = feature.properties.mag;
         
         function getColor(m) {
-            return m > 50  ? colours[0] :
-                   m > 35  ? colours[1] :
-                   m > 20  ? colours[2] :
-                   m > 10  ? colours[3] :
-                   m > 5  ? colours[4] :
-                   m > 3  ? colours[5] :
-                   m > 2  ? colours[6] :
-                   m > 1  ? colours[7] :
+            return m > 100  ? colours[0] :
+                   m > 75  ? colours[1] :
+                   m > 50  ? colours[2] :
+                   m > 35  ? colours[3] :
+                   m > 20  ? colours[4] :
+                   m > 10  ? colours[5] :
+                   m > 5  ? colours[6] :
+                   m > 0  ? colours[7] :
                             colours[8];
                 }
         
         var circleoptions = {
-            radius: mag*1.5,
+            radius: mag*3,
             color: getColor(fdepth),
             fillcolor: getColor(fdepth),
             fillOpacity: 0.8
         }  
-        console.log(circleoptions);
         return L.circleMarker(latlng, circleoptions)
       }
   ,onEachFeature: popupFromFeature}).addTo(map);
+
+  // Set up the legend.
+  var legend = L.control({ position: "bottomright" });
+  legend.onAdd = function() {
+    var div = L.DomUtil.create("div", "info legend");
+    var limits = [100, 75, 50, 35, 20, 10, 5, 0, -10];
+    var colors = colours;
+    var colblock = [];
+    var labels = []
+
+    // Add the minimum and maximum.
+    var legendInfo = "<h1>Depth of earthquake</h1>" +
+      "<div class=\"labels\">" +
+        "<div class=\"min\">" + limits[0] + "</div>" +
+        "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
+      "</div>";
+
+    div.innerHTML = legendInfo;
+
+    limits.forEach(function(limit, index) {
+      colblock.push("<li style=\"background-color: " + colors[index] + "\"></li>");
+      labels.push("<li>" + limits[index] + "</li")
+    });
+
+    //div.innerHTML = "<ul>" + labels.join("") + "</ul>";
+    div.innerHTML += "<ul>" + colblock.join("") + "</ul>";
+    return div;
+  };
+
+  // Adding the legend to the map
+  legend.addTo(map);
+
 
 });
