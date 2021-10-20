@@ -30,24 +30,24 @@ d3.json(equakedata).then(function(earthquakes) {
     }
 }
 
+function getColor(m) {
+    return m > 100  ? colours[0] :
+           m > 75  ? colours[1] :
+           m > 50  ? colours[2] :
+           m > 35  ? colours[3] :
+           m > 20  ? colours[4] :
+           m > 10  ? colours[5] :
+           m > 5  ? colours[6] :
+           m > 0  ? colours[7] :
+                    colours[8];
+        }
+
   L.geoJSON(locationdata, {
       pointToLayer: function(feature, latlng) {
         var fdepth = feature.geometry.coordinates[2];
         
         var mag = feature.properties.mag;
-        
-        function getColor(m) {
-            return m > 100  ? colours[0] :
-                   m > 75  ? colours[1] :
-                   m > 50  ? colours[2] :
-                   m > 35  ? colours[3] :
-                   m > 20  ? colours[4] :
-                   m > 10  ? colours[5] :
-                   m > 5  ? colours[6] :
-                   m > 0  ? colours[7] :
-                            colours[8];
-                }
-        
+                
         var circleoptions = {
             radius: mag*3,
             color: getColor(fdepth),
@@ -60,6 +60,7 @@ d3.json(equakedata).then(function(earthquakes) {
 
   // Set up the legend.
   var legend = L.control({ position: "bottomright" });
+
   legend.onAdd = function() {
     var div = L.DomUtil.create("div", "info legend");
     var limits = [100, 75, 50, 35, 20, 10, 5, 0, -10];
