@@ -49,7 +49,7 @@ function getColor(m) {
         var mag = feature.properties.mag;
                 
         var circleoptions = {
-            radius: mag*3,
+            radius: (10**(mag/5)),
             color: getColor(fdepth),
             fillcolor: getColor(fdepth),
             fillOpacity: 0.8
