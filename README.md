@@ -20,3 +20,7 @@ The map is created using Leaflet, with the following characteristics:
 
 ## Publication
 The map is available on [GitHub pages](https://tomholdershaw.github.io/leaflet-challenge/)
+
+## Project organisation
+- leaflet-step-1: earthquake data on a street map
+- leaflet-step-2: including plates and layer controls
